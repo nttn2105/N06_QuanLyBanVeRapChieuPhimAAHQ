@@ -6,10 +6,16 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.sql.SQLException;
 
+import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
 import javax.swing.ImageIcon;
+import javax.swing.InputMap;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.border.EmptyBorder;
 
 import dao.DangNhap_Dao;
@@ -50,13 +57,13 @@ public class GD_DangNhap extends JFrame implements ActionListener{
 
 	public GD_DangNhap() {
 		initialize();
-		
 	}
 
 	private void initialize() {
 		frame = new JFrame();
 		frame.getContentPane().setBackground(Color.decode("#FFFFFF"));
 		frame.setBounds(100, 100, 1092, 721);
+		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
@@ -81,11 +88,13 @@ public class GD_DangNhap extends JFrame implements ActionListener{
 		frame.getContentPane().add(lblMatKhau);
 		
 		textTenDangNhap = new JTextField();
+		textTenDangNhap.setText("caokienc");
 		textTenDangNhap.setBounds(465, 351, 391, 32);
 		frame.getContentPane().add(textTenDangNhap);
 		textTenDangNhap.setColumns(10);
 
 		textMK = new JPasswordField(30);
+		textMK.setText("caokien123");
 		textMK.setBounds(465, 420, 391, 32);
 		frame.getContentPane().add(textMK);
 		textMK.setColumns(10);
@@ -134,6 +143,55 @@ public class GD_DangNhap extends JFrame implements ActionListener{
 		frame.getContentPane().add(btnQuenMK);
 		btnDangNhap.addActionListener(this);
 		btnQuenMK.addActionListener(this);
+		
+		textTenDangNhap.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				int keyCode = e.getKeyCode();	
+				if (keyCode == KeyEvent.VK_ENTER) {
+					btnDangNhap.doClick();
+				}
+			}
+		});
+        
+		textMK.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				int keyCode = e.getKeyCode();	
+				if (keyCode == KeyEvent.VK_ENTER) {
+					btnDangNhap.doClick();
+				}
+			}
+		});
+		
 	}
 	
 	@Override
@@ -168,4 +226,5 @@ public class GD_DangNhap extends JFrame implements ActionListener{
 	    	  	frame.dispose();
 	      }
 	}
+
 }
