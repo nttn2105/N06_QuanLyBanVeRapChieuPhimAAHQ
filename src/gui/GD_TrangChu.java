@@ -201,6 +201,7 @@ public class GD_TrangChu extends JFrame implements ActionListener{
 		nguoiDung = nv;
 		thongTinNhanVien = new GD_ThongTinNhanVien(nguoiDung,this);
 		initialize();
+		phimTat();
 	}
 	public void closeGUI() {
         this.dispose(); // Đóng giao diện trang chủ
