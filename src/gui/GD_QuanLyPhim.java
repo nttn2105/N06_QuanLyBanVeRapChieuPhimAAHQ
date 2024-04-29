@@ -21,6 +21,7 @@ import java.awt.event.MouseListener;
 import java.sql.Time;
 import java.util.List;
 
+import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.plaf.ColorUIResource;
@@ -51,10 +52,11 @@ public class GD_QuanLyPhim extends JPanel implements ActionListener{
 	private JComboBox comboBoxTheLoai;
 	private DefaultTableModel dataModel;
 	private JButton btnChange;
-	private JButton btnDelete;
 	private JTable tableModel;
 	private JComboBox comboBoxLoc;
 	private List<Phim> listPhim;
+	private Border defaultBorder;
+	private JButton btnRetype;
 
 	public GD_QuanLyPhim() {
 		setBackground(new Color(217, 217, 217));
@@ -97,6 +99,9 @@ public class GD_QuanLyPhim extends JPanel implements ActionListener{
         txtMa.setBounds(176, 45, 200, 25);
         panel.add(txtMa);
         txtMa.setColumns(10);
+        txtMa.setEnabled(false);
+        Phim_Dao phimDao = new Phim_Dao();
+        txtMa.setText(phimDao.autoGenerateMaPhim());
         
         txtTen = new JTextField();
         txtTen.setBounds(176, 93, 200, 25);
@@ -123,12 +128,16 @@ public class GD_QuanLyPhim extends JPanel implements ActionListener{
         panel.add(txtThoiLuong);
         txtThoiLuong.setColumns(10);
         
+        defaultBorder = txtMa.getBorder();
+        defaultBorder = txtTen.getBorder();
+        defaultBorder = txtDaoDien.getBorder();
+        defaultBorder = txtThoiLuong.getBorder();
+        
         comboBoxTheLoai = new JComboBox();
         comboBoxTheLoai.setFont(new Font("Times New Roman", Font.PLAIN, 15));
         comboBoxTheLoai.setBounds(750, 90, 200, 24);
         panel.add(comboBoxTheLoai);
         
-        comboBoxTheLoai.addItem("Tất Cả");
         comboBoxTheLoai.addItem("Hài Hước");
         comboBoxTheLoai.addItem("Hành Động");
         comboBoxTheLoai.addItem("Tình Cảm");
@@ -157,17 +166,17 @@ public class GD_QuanLyPhim extends JPanel implements ActionListener{
         btnChange.setFocusPainted(false);
         add(btnChange);
         
-        btnDelete = new JButton("Xóa Phim");
-        btnDelete.setBackground(new Color(0, 0, 0));
-        btnDelete.setForeground(new Color(255,255,255));
-        btnDelete.setFont(new Font("Times New Roman", Font.BOLD, 15));
-        btnDelete.setBounds(540, 296, 130, 40);
-        btnDelete.setFocusPainted(false);
-        add(btnDelete);
+        btnRetype = new JButton("Nhập lại");
+        btnRetype.setBackground(new Color(0, 0, 0));
+        btnRetype.setForeground(new Color(255,255,255));
+        btnRetype.setFont(new Font("Times New Roman", Font.BOLD, 15));
+        btnRetype.setBounds(540, 296, 130, 40);
+        btnRetype.setFocusPainted(false);
+        add(btnRetype);
         
         btnAdd.addActionListener(this);
         btnChange.addActionListener(this);
-        btnDelete.addActionListener(this);
+        btnRetype.addActionListener(this);
         
         dataModel = new DefaultTableModel();
       	String headers[] = {"Mã phim", "Tên phim", "Đạo diễn", "Thời lượng", "Thể loại"};
@@ -208,7 +217,6 @@ public class GD_QuanLyPhim extends JPanel implements ActionListener{
       	scroll.setBackground(new Color(217,217,217));
       	add(scroll);
       	
-      	Phim_Dao phimDao = new Phim_Dao();
       	listPhim = phimDao.readPhimFromSQL();
       	for (Phim phim : listPhim) {
             dataModel.addRow(new Object[]{
@@ -246,51 +254,34 @@ public class GD_QuanLyPhim extends JPanel implements ActionListener{
 		// TODO Auto-generated method stub
 		Object o = e.getSource();
 		if(o.equals(btnAdd)) {
-			try {
-				 String maPhim = txtMa.getText();
-	             String tenPhim = txtTen.getText();
-	             String daoDien = txtDaoDien.getText();
-	             Time thoiLuong = Time.valueOf(txtThoiLuong.getText());
-	             String theLoai = (String) comboBoxTheLoai.getSelectedItem();
-				
-	             Phim_Dao phimDao = new Phim_Dao();
-	             
-	             Phim phim = new Phim(maPhim, tenPhim, daoDien, thoiLuong, theLoai);
+			if (!validateFields()) {
+	            return;  
+	        }
+			Phim_Dao phimDao = new Phim_Dao();
+			String maPhim = txtMa.getText();
+	        String tenPhim = txtTen.getText();
+	        String daoDien = txtDaoDien.getText();
+	        Time thoiLuong = Time.valueOf(txtThoiLuong.getText());
+	        String theLoai = (String) comboBoxTheLoai.getSelectedItem();
+					             
+	        Phim phim = new Phim(maPhim, tenPhim, daoDien, thoiLuong, theLoai);
 			     
-	             boolean success = phimDao.addPhim(phim);
+	        boolean success = phimDao.addPhim(phim);
 			     
-			     if(success) {
-			    	 JOptionPane.showMessageDialog(this,"Thêm phim thành công");
-			    	 addRowPhim(phim);
-			    	 clearFields();
-			     }else {
-					JOptionPane.showMessageDialog(this, "Thêm phim thất bại");
-				}
-			}catch (Exception ex) {
-                ex.printStackTrace(); 
+			if(success) {
+			    JOptionPane.showMessageDialog(this,"Thêm phim thành công");
+			    addRowPhim(phim);
+			    clearFields();
+			    txtMa.setText(phimDao.autoGenerateMaPhim());
+			}else {
+				JOptionPane.showMessageDialog(this, "Thêm phim thất bại");
 			}
 		}
-		if(o.equals(btnDelete)) {
-			int selectedRow = tableModel.getSelectedRow(); 
-	        if (selectedRow != -1) {  
-	            String maPhim = (String) tableModel.getValueAt(selectedRow, 0);  
-
-	            int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa phim này?", "Xác nhận xóa", JOptionPane.YES_NO_OPTION);
-	            if (confirm == JOptionPane.YES_OPTION) {  
-	                Phim_Dao phimDao = new Phim_Dao();
-	                boolean success = phimDao.deletePhim(maPhim);  
-
-	                if (success) {
-	                    JOptionPane.showMessageDialog(this, "Xóa phim thành công");
-	                    dataModel.removeRow(selectedRow);  
-	                } else {
-	                    JOptionPane.showMessageDialog(this, "Xóa phim thất bại");
-	                }
-	            }
-	        } else {
-	            JOptionPane.showMessageDialog(this, "Hãy chọn một phim để xóa");  
-	        }
-	    }
+		if(o.equals(btnRetype)) {
+			clearFields();
+	        Phim_Dao phimDao = new Phim_Dao();
+	        txtMa.setText(phimDao.autoGenerateMaPhim());
+		}
 		if(o.equals(btnChange)) {
 			int selectRow = tableModel.getSelectedRow();
 			if(selectRow != -1) {
@@ -324,6 +315,53 @@ public class GD_QuanLyPhim extends JPanel implements ActionListener{
 				String selectedTheLoai = (String) comboBoxLoc.getSelectedItem();
 				filterTheLoai(selectedTheLoai);
 		}
+	}
+	private boolean validateFields() {
+		String maPhim = txtMa.getText().trim();
+		String tenPhim = txtTen.getText().trim();
+		String daoDien = txtDaoDien.getText().trim();
+		String thoiLuong = txtThoiLuong.getText().trim();
+		
+
+		if(tenPhim.isEmpty())
+		{                  
+			 JOptionPane.showMessageDialog(this,"Vui lòng nhập tên phim");
+			 txtTen.setBorder(new LineBorder(Color.RED,2));
+			 txtTen.requestFocus();
+			 return false;
+		}
+		
+		if(daoDien.isEmpty())
+		{                  
+			 JOptionPane.showMessageDialog(this,"Vui lòng nhập đạo diễn");
+			 txtDaoDien.setBorder(new LineBorder(Color.RED,2));
+			 txtDaoDien.requestFocus();
+			 return false;
+		}
+		if(thoiLuong.isEmpty() || !thoiLuong.matches("^([01]?[0-9]|2[0-3]):[0-5]?[0-9]:[0-5]?[0-9]$"))
+		{
+			 String message = thoiLuong.isEmpty() ? 
+                     "Error: Vui lòng nhập thời lượng" : 
+                     "Error: Thời lượng phim phải nhập theo hh:mm:ss";
+                     
+			 JOptionPane.showMessageDialog(this, message);
+			 txtThoiLuong.setBorder(new LineBorder(Color.RED,2));
+			 txtThoiLuong.requestFocus();
+			 return false;
+		}
+
+	    if (comboBoxTheLoai.getSelectedItem() == null) {
+	        JOptionPane.showMessageDialog(this, "Vui lòng chọn thể loại.");
+	        comboBoxTheLoai.setBorder(new LineBorder(Color.RED,2));
+	        comboBoxTheLoai.requestFocus();  
+	        return false;
+	    }
+	    txtMa.setBorder(defaultBorder);
+	    txtTen.setBorder(defaultBorder);
+	    txtDaoDien.setBorder(defaultBorder);
+	    txtThoiLuong.setBorder(defaultBorder);
+	   
+	    return true; 
 	}
 	public void filterTheLoai(String theLoai) {
 		DefaultTableModel model = (DefaultTableModel) tableModel.getModel();

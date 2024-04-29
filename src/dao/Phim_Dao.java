@@ -122,24 +122,23 @@ public class Phim_Dao {
 	        }
 	        return n > 0; 
 	    }
-	 public void updateComboBox(JComboBox comboBox, String tableName, String columnName) {
+	 public String autoGenerateMaPhim() {
 	        Connection connect = null;
 	        PreparedStatement stmt = null;
-
+	        String maPhim = null;
 	        try {
 	            connect = Database.getConnection();
-	            String sql = "SELECT DISTINCT " + columnName + " FROM " + tableName;
+	            String sql = "SELECT MAX(CAST(SUBSTRING(maPhim, 2, 3) AS INT)) AS LastNumber FROM Phim";
 	            stmt = connect.prepareStatement(sql);
-
 	            ResultSet rs = stmt.executeQuery();
-
-	            comboBox.removeAllItems();  // Xóa các mục hiện có
-
-	            while (rs.next()) {
-	                String value = rs.getString(1);
-	                comboBox.addItem(value);  // Thêm giá trị vào ComboBox
+	            int nextNumber = 1; 
+	            if (rs.next()) {
+	                nextNumber = rs.getInt("LastNumber") + 1; 
 	            }
 
+	            String numberPart = String.format("%03d", nextNumber);
+	            maPhim = "P" + numberPart; 
+	            
 	        } catch (SQLException e) {
 	            e.printStackTrace();
 	        } finally {
@@ -147,8 +146,9 @@ public class Phim_Dao {
 	                if (stmt != null) stmt.close();
 	                if (connect != null) connect.close();
 	            } catch (SQLException e) {
-	                e.getStackTrace();
+	                e.printStackTrace();
 	            }
 	        }
+	        return maPhim;
 	    }
 }

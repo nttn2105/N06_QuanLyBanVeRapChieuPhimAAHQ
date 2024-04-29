@@ -169,8 +169,6 @@ public class GD_TrangChu extends JFrame implements ActionListener{
 		getContentPane().add(panel);
 		panel.setLayout(null);
 
-		
-		
 		backgound = new JLabel("");
 		backgound.setIcon(new ImageIcon(new ImageIcon("image//BackGround.png").getImage().getScaledInstance(1140, 865, java.awt.Image.SCALE_SMOOTH)));
 		backgound.setBounds(0, 0, 1140, 865);
@@ -193,8 +191,6 @@ public class GD_TrangChu extends JFrame implements ActionListener{
 		btnTroGiup.addActionListener(this);
 		btnThoat.addActionListener(this);
 		btnThongTinNhanVien.addActionListener(this);
-
-
 	}
 	
 	public GD_TrangChu(NhanVien nv) {
@@ -242,13 +238,13 @@ public class GD_TrangChu extends JFrame implements ActionListener{
 			resetBtnBackground();
 			panel.add(banVe, new Integer(1), 0);
 			banVe.setVisible(true);
-			btnBanVe.setBackground(Color.LIGHT_GRAY);
+			btnBanVe.setBackground(Color.decode("#CCBEBE"));
 		} else if (o == btnSuatChieu) {
 			setVisibleFalse();
 			resetBtnBackground();
 			panel.add(quanLySuatChieu, new Integer(1), 0);
 			quanLySuatChieu.setVisible(true);
-			btnSuatChieu.setBackground(Color.LIGHT_GRAY);
+			btnSuatChieu.setBackground(Color.decode("#CCBEBE"));
 		} else if (o == btnPhim) {
 			setVisibleFalse();
 			resetBtnBackground();
@@ -266,7 +262,7 @@ public class GD_TrangChu extends JFrame implements ActionListener{
 			resetBtnBackground();
 			panel.add(quanLyHoaDon, new Integer(1), 0);
 			quanLyHoaDon.setVisible(true);
-			btnHoaDon.setBackground(Color.LIGHT_GRAY);
+			btnHoaDon.setBackground(Color.decode("#CCBEBE"));
 		}else if (o == btnTroGiup) {
 			setVisibleFalse(); 
 		    resetBtnBackground(); 
@@ -300,56 +296,65 @@ public class GD_TrangChu extends JFrame implements ActionListener{
 		ActionMap actionMap = getRootPane().getActionMap();
 		
 		KeyStroke keyTrangChu = KeyStroke.getKeyStroke("F1");
-		inputMap.put(keyTrangChu, "trangChu"); // "openTrangChu" là tên ánh xạ của hành động
+		inputMap.put(keyTrangChu, "trangChu"); 
 		actionMap.put("trangChu", new AbstractAction() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        btnTrangChu.doClick(); // Mô phỏng hành động nhấp vào btnTrangChu
+		        btnTrangChu.doClick();
 		    }
 		});
 		
 		KeyStroke keyBanVe = KeyStroke.getKeyStroke("F2");
-		inputMap.put(keyBanVe, "banVe"); // "openTrangChu" là tên ánh xạ của hành động
+		inputMap.put(keyBanVe, "banVe"); 
 		actionMap.put("banVe", new AbstractAction() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        btnBanVe.doClick(); // Mô phỏng hành động nhấp vào btnTrangChu
+		        btnBanVe.doClick(); 
 		    }
 		});
 		
 		KeyStroke keySuatChieu = KeyStroke.getKeyStroke("F3");
-		inputMap.put(keySuatChieu, "suatChieu"); // "openTrangChu" là tên ánh xạ của hành động
+		inputMap.put(keySuatChieu, "suatChieu"); 
 		actionMap.put("suatChieu", new AbstractAction() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        btnSuatChieu.doClick(); // Mô phỏng hành động nhấp vào btnTrangChu
+		        btnSuatChieu.doClick();
 		    }
 		});
 		
 		KeyStroke keyPhim = KeyStroke.getKeyStroke("F4");
-		inputMap.put(keyPhim, "phim"); // "openTrangChu" là tên ánh xạ của hành động
+		inputMap.put(keyPhim, "phim"); 
 		actionMap.put("phim", new AbstractAction() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        btnPhim.doClick(); // Mô phỏng hành động nhấp vào btnTrangChu
+		        btnPhim.doClick(); 
 		    }
 		});
 		
 		KeyStroke keyHoaDon = KeyStroke.getKeyStroke("F5");
-		inputMap.put(keyHoaDon, "hoaDon"); // "openTrangChu" là tên ánh xạ của hành động
+		inputMap.put(keyHoaDon, "hoaDon");
 		actionMap.put("hoaDon", new AbstractAction() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        btnHoaDon.doClick(); // Mô phỏng hành động nhấp vào btnTrangChu
+		        btnHoaDon.doClick(); 
 		    }
 		});
 		
 		KeyStroke keyThongKe = KeyStroke.getKeyStroke("F6");
-		inputMap.put(keyThongKe, "thongKe"); // "openTrangChu" là tên ánh xạ của hành động
+		inputMap.put(keyThongKe, "thongKe"); 
 		actionMap.put("thongKe", new AbstractAction() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        btnThongKe.doClick(); // Mô phỏng hành động nhấp vào btnTrangChu
+		        btnThongKe.doClick(); 
+		    }
+		});
+		
+		KeyStroke keyTroGiup = KeyStroke.getKeyStroke("F7");
+		inputMap.put(keyTroGiup, "troGiup"); 
+		actionMap.put("troGiup", new AbstractAction() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        btnTroGiup.doClick(); 
 		    }
 		});
 		
@@ -358,7 +363,7 @@ public class GD_TrangChu extends JFrame implements ActionListener{
 		actionMap.put("thoat", new AbstractAction() {
 		    @Override
 		    public void actionPerformed(ActionEvent e) {
-		        btnThoat.doClick(); // Mô phỏng hành động nhấp vào nút Thoát
+		        btnThoat.doClick(); 
 		    }
 		});	
 	}

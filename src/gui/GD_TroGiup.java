@@ -26,6 +26,8 @@ public class GD_TroGiup extends JPanel {
 	private JLabel lblDiaChi;
 	private JLabel lblNhom;
 	private JLabel lblSV1;
+	private JLabel lbl7;
+	private JLabel lbl8;
 	
 	public GD_TroGiup() {
 		setSize(1140, 865);
@@ -58,12 +60,24 @@ public class GD_TroGiup extends JPanel {
         lbl5 = new JLabel("F5 : Thống Kê");
         lbl6 = new JLabel("F6 : Trợ Giúp");
         
+        lbl1 = new JLabel("F1 : Trang Chủ");
+        lbl2 = new JLabel("F2 : Bán Vé");
+        lbl3 = new JLabel("F3 : Quản Lý Suất Chiếu");
+        lbl4 = new JLabel("F4 : Quản Lý Phim");
+        lbl5 = new JLabel("F5 : Thống Kê");
+        lbl6 = new JLabel("F6 : Thống Kê");
+        lbl7 = new JLabel("F7 : Trợ Giúp");
+        lbl8 = new JLabel("CTRL + X : Thoát Chương Trình");
+        
+        
         lbl1.setBounds(53, 69, 344, 30);
-        lbl2.setBounds(53, 136, 351, 30);
-        lbl3.setBounds(53, 206, 344, 30);
-        lbl4.setBounds(489, 69, 336, 30);
-        lbl5.setBounds(489, 136, 336, 30);
-        lbl6.setBounds(489, 206, 336, 30);
+        lbl2.setBounds(53, 119, 344, 30);
+        lbl3.setBounds(53, 169, 344, 30);
+        lbl4.setBounds(53, 219, 344, 30);
+        lbl5.setBounds(489, 69, 336, 30);
+        lbl6.setBounds(489, 119, 336, 30);
+        lbl7.setBounds(489, 169, 336, 30);
+        lbl8.setBounds(489, 219, 336, 30);
         
         lbl1.setFont(labelFont);
         lbl2.setFont(labelFont);
@@ -71,6 +85,8 @@ public class GD_TroGiup extends JPanel {
         lbl4.setFont(labelFont);
         lbl5.setFont(labelFont);
         lbl6.setFont(labelFont);
+        lbl7.setFont(labelFont);
+        lbl8.setFont(labelFont);
         
         panel.add(lbl1);
         panel.add(lbl2);
@@ -78,7 +94,8 @@ public class GD_TroGiup extends JPanel {
         panel.add(lbl4);
         panel.add(lbl5);
         panel.add(lbl6);
-        
+        panel.add(lbl7);
+        panel.add(lbl8);
 		
         
         TitledBorder titledBorder1 = BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK, 2), "Thông tin liên hệ");
